@@ -54,6 +54,14 @@ def moderate_text(txt):
     return is_flagged, flagged_for
 
 
+def define_word(word):
+    url = f"https://api.dictionaryapi.dev/api/v2/entries/en/{word.lower()}" 
+    response = requests.get(url).json()
+    entry = response[0]
+    meaning = entry['meanings'][0]['definitions'][0]['definition']
+    phonetics_list = [p['text'] for p in entry['phonetics'] if 'text' in p]
+    primary_phonetic = phonetics_list[0] if phonetics_list else "No phonetic spelling found"
+    return primary_phonetic, meaning
 
 if __name__ == "__main__":
     print('Do NOT run this script directly!')
