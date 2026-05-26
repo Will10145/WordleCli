@@ -35,7 +35,7 @@
 ### Any SSH Client
 
 ```bash
-ssh -p 2222 wordle@arcane.willcodes.tech
+ssh -p 2222 wordle@wordle.willcodes.tech
 ```
 
 > [!TIP]
