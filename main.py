@@ -174,8 +174,9 @@ if not consentForLeaderboard:
         username = False
         while True:
             username = input('Username:\n')
+            is_flagged, flagged_for = moderate_text(username)
             with loading_spinner("Moderating Username"):
-                is_flagged, flagged_for = moderate_text(username)
+                pass
             if not is_flagged:
                 break
             print(f"Your username has been flagged for: {', '.join(flagged_for)}")
