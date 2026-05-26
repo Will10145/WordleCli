@@ -51,6 +51,8 @@ def moderate_text(txt):
     for category, status in categories.items():
         if status == True:
             flagged_for.append(category)
+    print(f"DEBUG status: {response.status_code}")
+    print(f"DEBUG body: {response.text}")
     return is_flagged, flagged_for
 
 
