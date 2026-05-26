@@ -157,7 +157,10 @@ print("Welcome to Cli Wordle!\nWell done for making it this far!\nPress enter â†
 input()
 
 with loading_spinner("Generating random word"):
-    word = load_json('words.json')[random.randint(1,len(load_json('words.json')))]
+    words = load_json('words.json')
+    if not isinstance(words, list) or not words:
+        raise ValueError("words.json must contain a non-empty list of words.")
+    word = random.choice(words)
 
 # check for returning player first
 pubkey          = get_pubkey()
