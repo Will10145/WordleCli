@@ -239,7 +239,9 @@ if won:
 else:
     print(f"  oh well ):, at least you tried!")
 
-if consentForLeaderboard and pubkey and player:
+if consentForLeaderboard and pubkey:
+    # reload player in case they just registered this session
+    player = load_json(STATS_FILE).get(pubkey) or {"username": username, "wins": 0, "games": 0, "streak": 0}
     update_stats(pubkey, player, won, len(guesses))
 
 print()
