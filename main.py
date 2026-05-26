@@ -155,11 +155,9 @@ clear()
 print('='*20)
 print("Welcome to Cli Wordle!\nWell done for making it this far!\nPress enter ↵ to start!")
 input()
-
+GAME_DIR = os.path.dirname(os.path.abspath(__file__))
 with loading_spinner("Generating random word"):
-    words = load_json('words.json')
-    if not isinstance(words, list) or not words:
-        raise ValueError("words.json must contain a non-empty list of words.")
+    words = load_json(os.path.join(GAME_DIR, 'words.json'))
     word = random.choice(words)
 
 # check for returning player first
