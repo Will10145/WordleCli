@@ -43,10 +43,10 @@ def moderate_text(txt):
 
     data = {"input": txt}
     response = requests.post(url, headers=headers, data=json.dumps(data))
+    print(f"DEBUG: {response.status_code} | {repr(response.content)}")
     mod_data = response.json()
     categories = mod_data["results"][0]["categories"]
     is_flagged = mod_data["results"][0]["flagged"]
-
     flagged_for = []
     for category, status in categories.items():
         if status == True:
