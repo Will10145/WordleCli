@@ -47,7 +47,6 @@ def save_json(path, data):
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w") as f:
         json.dump(data, f, indent=2)
-    print(f"DEBUG saved to {path}")
 
 def get_pubkey():
     parts = os.environ.get("SSH_AUTH_INFO_0", "").split()
@@ -244,7 +243,7 @@ if won:
 else:
     print(f"  oh well ):, at least you tried!")
 
-print(f"DEBUG: consent={consentForLeaderboard} pubkey={pubkey} player={player}")
+
 if consentForLeaderboard and pubkey:
     player = load_json(STATS_FILE).get(pubkey) or {"username": username, "wins": 0, "games": 0, "streak": 0}
     update_stats(pubkey, player, won, len(guesses))
