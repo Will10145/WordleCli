@@ -35,22 +35,20 @@ def get_player_info():
     return client_ip, pubkey
 
 def moderate_text(txt):
-    url = "https://ai.hackclub.com/proxy/v1/moderations"
-    headers = {
-        "Authorization": f"Bearer {os.getenv('HACKCLUB_AI_API_KEY')}",
-        "Content-Type": "application/json",
-    }
-
-    data = {"input": txt}
-    response = requests.post(url, headers=headers, data=json.dumps(data))
-    mod_data = response.json()
-    categories = mod_data["results"][0]["categories"]
-    is_flagged = mod_data["results"][0]["flagged"]
-    flagged_for = []
-    for category, status in categories.items():
-        if status == True:
-            flagged_for.append(category)
-    return is_flagged, flagged_for
+    try:
+        url = "https://ai.hackclub.com/proxy/v1/moderations"
+        headers = {
+            "Authorization": f"Bearer {os.getenv('HACKCLUB_AI_API_KEY')}",
+            "Content-Type": "application/json",
+        }
+        response = requests.post(url, headers=headers, json={"input": txt}, timeout=10)
+        mod_data = response.json()
+        categories = mod_data["results"][0]["categories"]
+        is_flagged = mod_data["results"][0]["flagged"]
+        flagged_for = [c for c, v in categories.items() if v]
+        return is_flagged, flagged_for
+    except Exception:
+        return False, []
 
 
 def define_word(word):
