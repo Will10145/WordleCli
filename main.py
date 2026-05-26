@@ -51,7 +51,11 @@ def save_json(path, data):
 
 def get_pubkey():
     parts = os.environ.get("SSH_AUTH_INFO_0", "").split()
-    return parts[2] if len(parts) >= 3 else None
+    if len(parts) >= 3:
+        return parts[2]
+    # fall back to IP address
+    conn = os.environ.get("SSH_CONNECTION", "").split()
+    return conn[0] if conn else None
 
 def get_returning_player(pubkey):
     if not pubkey:
