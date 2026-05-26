@@ -27,4 +27,5 @@ print(os.environ.get('SSH_CLIENT'))
 print('\033[2J\033[H', end='')
 print('='*20)
 print('Lets Begin!')
-print(word)
+
+# print(word)
