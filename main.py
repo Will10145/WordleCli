@@ -47,6 +47,7 @@ def save_json(path, data):
     Path(path).parent.mkdir(parents=True, exist_ok=True)
     with open(path, "w") as f:
         json.dump(data, f, indent=2)
+    print(f"DEBUG saved to {path}")
 
 def get_pubkey():
     parts = os.environ.get("SSH_AUTH_INFO_0", "").split()
