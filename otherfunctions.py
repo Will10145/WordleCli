@@ -1,4 +1,9 @@
 # These are small useful functions that I won't ever need to edit / therefore i dont want them getting into the way of things
+import os
+from dotenv import load_dotenv
+import json, requests
+
+load_dotenv()
 
 def url_click(url, text):
     return f"\033]8;;{url}\033\\{text}\033]8;;\033\\"
@@ -17,6 +22,38 @@ def confirmleaderboard():
         elif d.lower() == 'y':
             return True
         
+
+def get_player_info():
+    conn = os.environ.get("SSH_CONNECTION", "").split()
+    client_ip = conn[0] if conn else "unknown"
+ 
+    auth_info = os.environ.get("SSH_AUTH_INFO_0", "")
+    # Public key is the third token: "publickey ssh-ed25519 AAAA..."
+    parts = auth_info.split()
+    pubkey = parts[2] if len(parts) >= 3 else None
+ 
+    return client_ip, pubkey
+
+def moderate_text(txt):
+    url = "https://ai.hackclub.com/proxy/v1/moderations"
+    headers = {
+        "Authorization": f"Bearer {os.getenv('HACKCLUB_AI_API_KEY')}",
+        "Content-Type": "application/json",
+    }
+
+    data = {"input": txt}
+    response = requests.post(url, headers=headers, data=json.dumps(data))
+    mod_data = response.json()
+    categories = mod_data["results"][0]["categories"]
+    is_flagged = mod_data["results"][0]["flagged"]
+
+    flagged_for = []
+    for category, status in categories.items():
+        if status == True:
+            flagged_for.append(category)
+    return is_flagged, flagged_for
+
+
 
 if __name__ == "__main__":
     print('Do NOT run this script directly!')
